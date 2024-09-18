@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmbyMatroskaFonts", "EmbyMatroskaFonts.csproj", "{D8AA6B79-BE8F-498F-A09C-21FD5FCB74FD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8AA6B79-BE8F-498F-A09C-21FD5FCB74FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8AA6B79-BE8F-498F-A09C-21FD5FCB74FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8AA6B79-BE8F-498F-A09C-21FD5FCB74FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8AA6B79-BE8F-498F-A09C-21FD5FCB74FD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {37E2CB60-1DEB-4890-8019-2343CE8C07C3}
+	EndGlobalSection
+EndGlobal

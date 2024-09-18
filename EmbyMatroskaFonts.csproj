@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+<PropertyGroup>
+    <TargetFrameworks>net5.0;</TargetFrameworks>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+</PropertyGroup>
+
+<ItemGroup>
+  <None Remove="arialbd.ttf" />
+</ItemGroup>
+
+<ItemGroup>
+  <EmbeddedResource Include="arialbd.ttf" />
+</ItemGroup>
+
+<ItemGroup>
+	<PackageReference Include="mediabrowser.server.core" Version="4.8.5" />
+	<PackageReference Include="SkiaSharp" Version="2.88.8" />
+	<PackageReference Include="System.Memory" Version="4.5.5" />
+</ItemGroup>
+
+<ItemGroup>
+  <Folder Include="Properties\" />
+</ItemGroup>
+
+<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+  <Exec Command="xcopy &quot;$(TargetPath)&quot; &quot;%25AppData%25\Emby-Server\programdata\plugins\&quot; /y" />
+</Target>
+
+</Project>
