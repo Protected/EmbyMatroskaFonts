@@ -18,6 +18,14 @@ using System.Reflection;
 namespace EmbyMatroskaFonts
 {
 
+    [Route("/Videos/{Id}/Font/List", "GET", Summary = "Gets list of fonts used by all tracks.")]
+    [Route("/Items/{Id}/Font/List", "GET", Summary = "Gets list of fonts used by all tracks.")]
+    [Unauthenticated]
+    public sealed class GetFontList : IReturn<List<string>>
+    {
+        public long Id {  get; set; }
+    }
+
     [Route("/Videos/{Id}/Font/{Index}/Stream", "GET", Summary = "Gets font attachment.")]
     [Route("/Items/{Id}/Font/{Index}/Stream", "GET", Summary = "Gets font attachment.")]
     [Unauthenticated]
@@ -51,6 +59,51 @@ namespace EmbyMatroskaFonts
         protected void Log(string message)
         {
             _logger.Info(message);
+        }
+
+        public async Task<object> Get(GetFontList request)
+        {
+            Log("Get embedded font list " + request.Id);
+            BaseItem itemById = LibraryManager.GetItemById(request.Id);
+
+            if (!(itemById is Video))
+            {
+                Log("Item is not video.");
+                Request.Response.StatusCode = 404;
+                return null;
+            }
+            Video video = (Video)itemById;
+
+            List<MediaStream> mediaStreams = video.GetMediaStreams();
+            List<MediaStream> attachments = mediaStreams.FindAll(item => item.Type == MediaStreamType.Attachment);
+
+            List<string> fontNames = new List<string>();
+
+            for (int attIndex = 0; attIndex < attachments.Count; attIndex++)
+            {
+                MediaStream mediaStream = attachments[attIndex];
+                ReadOnlyMemory<byte> fontContent = await GetFontFromMkv(video.Path, attIndex);
+                if (fontContent.IsEmpty)
+                {
+                    fontNames.Add(Path.GetFileName(mediaStream.Path));
+                }
+                else
+                {
+                    using (var typeface = SKTypeface.FromData(SKData.CreateCopy(fontContent.ToArray())))
+                    {
+                        if (typeface != null)
+                        {
+                            fontNames.Add(typeface.FamilyName + Path.GetExtension(mediaStream.Path));
+                        }
+                        else
+                        {
+                            fontNames.Add(Path.GetFileName(mediaStream.Path));
+                        }
+                    }
+                }
+            }
+
+            return ToOptimizedResult(fontNames);
         }
 
         public async Task<object> Get(GetFont request)
